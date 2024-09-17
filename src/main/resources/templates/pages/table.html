@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('其他操作')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="ordinary-form">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            用户姓名：<input type="text" name="username"/>
+                        </li>
+                        <li>
+                            用户手机：<input type="text" name="phone"/>
+                        </li>
+                        <li>
+                            用户邮箱：<input type="text" name="email"/>
+                        </li>
+                        <li>
+                            用户状态：<select name="status">
+                            <option value="">所有</option>
+                            <option value="0">启用</option>
+                            <option value="1">禁用</option>
+                        </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm search-user"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <!-- 触发模态框的按钮 -->
+        <!--        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">编辑</button>-->
+        <!-- 模态框 -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">用户信息编辑</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="username">用户姓名</label>
+                                <input type="text" class="form-control" id="username" placeholder="请输入用户名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="userAccount">用户账号</label>
+                                <input type="text" class="form-control" id="userAccount" placeholder="请输入手机号">
+                            </div>
+                            <div class="form-group">
+                                <label for="avatarUrl">头像</label>
+                                <img id="avatarUrl" src="">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="email" class="form-control" id="email" placeholder="请输入邮箱">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">手机号</label>
+                                <input type="text" class="form-control" id="phone" placeholder="请输入手机号">
+                            </div>
+                            <div class="form-group">
+                                <label for="userStatus">用户状态</label>
+                                <input type="text" class="form-control" id="userStatus" placeholder="请选择状态">
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary save-update">保存更改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+
+<script th:inline="javascript">
+    var prefix = ctx + "user";
+
+
+    $('#bootstrap-table').bootstrapTable({
+        url: prefix + "/list",
+        contentType: "application/x-www-form-urlencoded",
+        method: "post",
+        modalName: "用户",
+        columns: [
+            {
+                checkbox: true
+            },
+            {
+                field: 'id',
+                title: '用户ID',
+                visible: false
+            },
+            {
+                field: 'username',
+                title: '用户姓名'
+            },
+            {
+                field: 'userAccount',
+                title: '用户账号'
+            },
+            {
+                field: 'phone',
+                title: '用户手机'
+            },
+            {
+                field: 'email',
+                title: '用户邮箱'
+            },
+            {
+                field: 'createTime',
+                title: '创建时间'
+            },
+            {
+                field: 'userStatus',
+                title: '用户状态',
+                align: 'center',
+            },
+            {
+                title: '操作',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    let actions = [];
+                    actions.push('<a class="btn btn-success btn-xs edit-user" data-id="' + row.id + '" data-username="' + row.username + '" href="javascript:;"><i class="fa fa-edit"></i> 编辑</a> ');
+                    actions.push('<a id="detailUser" class="btn btn-info btn-xs detail-user" data-id="' + row.id + '" href="javascript:;"><i class="fa fa-search"></i>详细</a> ');
+                    actions.push('<a id="delUser" class="btn btn-danger btn-xs delete-user" data-id="' + row.id + '" href="javascript:;"><i class="fa fa-remove"></i>删除</a>');
+                    return actions.join('');
+                }
+            }]
+    });
+
+
+    // 当文档加载完成后，绑定事件处理器
+    $(document).ready(function () {
+        // 统一事件绑定
+        $('#bootstrap-table').on('click', '.edit-user', handleEditClick);
+        $('#bootstrap-table').on('click', '.detail-user', handleDetailClick);
+        $('#bootstrap-table').on('click', '.delete-user', handleDeleteClick);
+        $('#bootstrap-table').on('click', '.search-user', handleSearchClick);
+        $('#bootstrap-table').on('click', '.save-update', handleSaveUpdateClick);
+
+        // 定义查询用户函数
+        $(document).on('click', '.search-user', function (e) {
+            e.preventDefault();
+            handleSearchClick()
+        });
+
+        // 定义编辑、查看详情和删除的函数
+        $(document).on('click', '.edit-user', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            handleEditClick(id)
+        });
+
+        $(document).on('click', '.detail-user', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            handleDetailClick(id)
+        });
+
+        $(document).on('click', '.delete-user', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            // 调用后端API进行编辑操作
+            handleDeleteClick(id)
+
+        });
+
+        $(document).on('click', '.save-update', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            // 调用后端API进行编辑操作
+            handleSaveUpdateClick(id)
+
+        });
+
+
+        // 编辑用户的函数
+        function handleEditClick(id) {
+            var row = $("#bootstrap-table").bootstrapTable('getSelections');
+            // Extract the data from the row
+            var username = row[0].username;
+            var userAccount = row[0].userAccount;
+            var avatarUrl = row[0].avatarUrl;
+            var email = row[0].email;
+            var phone = row[0].phone;
+            var gender = row[0].gender;
+            var userStatus = row[0].userStatus;
+
+
+            // Populate the modal form fields
+            $('#username').val(username);
+            $('#userAccount').val(userAccount);
+            $('#avatarUrl').val(avatarUrl);
+            $('#email').val(email);
+            $('#phone').val(phone);
+            $('#gender').val(gender);
+            $('#userStatus').val(userStatus);
+            $('#editModal').modal('show');
+
+
+        }
+
+
+        function handleDetailClick(id) {
+            // 调用后端API查看详情
+            alert("编辑用户 ID: " + id);
+        }
+
+        function handleDeleteClick(id) {
+
+            layer.confirm('确定删除该用户吗?', {icon: 3, title: '提示'}, function (index) {
+                //do something
+                $.ajax({
+                    url: prefix + '/delete',
+                    contentType: 'application/x-www-form-urlencoded',
+                    type: 'POST',
+                    data: {id: id},
+                    success: function (res) {
+                        handleSearchClick()
+                    },
+                    error: function (error) {
+                        console.log("error...", error)
+                    }
+                });
+
+                layer.close(index);
+            });
+
+        }
+
+        function handleSearchClick() {
+            let username = $('input[name="username"]').val().trim();
+            let phone = $('input[name="phone"]').val().trim();
+            let email = $('input[name="email"]').val().trim();
+            $.ajax({
+                url: prefix + '/list',
+                type: 'POST',
+                data: {username: username, phone: phone, email: email},
+                success: function (res) {
+                    $('#bootstrap-table').bootstrapTable('load', res.rows);
+                },
+                error: function (error) {
+                    console.log("error...", error)
+                }
+            })
+        }
+
+        function handleSaveUpdateClick() {
+            var row = $("#bootstrap-table").bootstrapTable('getSelections');
+            var id = row[0].id;
+            var username = $('#username').val();
+            var userAccount = $('#userAccount').val();
+            var avatarUrl = $('#avatarUrl').val();
+            var email = $('#email').val();
+            var phone = $('#phone').val();
+            var gender = $('#gender').val();
+            var userStatus = $('#userStatus').val();
+            $.ajax({
+                url: prefix + '/update',
+                contentType: 'application/json',
+                type: 'POST',
+                data: JSON.stringify({
+                    "id": id,
+                    "username": username,
+                    "userAccount": userAccount,
+                    // "avatarUrl": avatarUrl,
+                    "email": email,
+                    "phone": phone,
+                    "userStatus": userStatus,
+                }),
+                success: function (res) {
+                    $('#editModal').modal('hide');
+                    handleSearchClick();
+                },
+                error: function (error) {
+                    console.log("error...", error)
+                }
+            });
+
+
+
+
+        }
+    });
+
+</script>
+
+</body>
+</html>

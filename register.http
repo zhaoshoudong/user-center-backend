@@ -1,0 +1,60 @@
+POST http://localhost:18080/user-center-backend/user/list
+Content-Type: application/json
+Cookie: JSESSIONID=E86EE842DDE357020D398BD59033A37E
+
+{
+  "username":""
+}
+###
+
+POST http://localhost:18080/user-center-backend/user/login
+Content-Type: application/json
+
+{
+  "userAccount": "123123",
+  "userPassword": "123456"
+}
+
+###
+POST http://localhost:18080/user-center-backend/user/register
+Content-Type: application/json
+
+{
+  "userAccount":"xiaotian",
+  "userPassword":"123456",
+  "checkPassword": "123456"
+}
+
+###
+POST http://localhost:18080/user-center-backend/user/update
+Content-Type: application/json
+
+{
+  "id": "d627c2d4054a4c23b05d80f013af9adc",
+  "username": "xiaotian",
+  "userAccount": "小天",
+  "avatarUrl": "",
+  "phone": "13768681312",
+  "email": "13768681312@163.com",
+  "gender": "女",
+  "userStatus": "禁用",
+  "userRole": 0
+}
+
+###
+POST http://localhost:18080/user-center-backend/user/delete
+Content-Type: application/json
+Cookie: JSESSIONID=AA6D5D202521CB6BC8BF5FC5AC6CE873
+
+{
+  "ids": ["4cf76df071aa47c2946dfd4e3dd28030","5b703cc34a2f4c97bd1f3f77ce653116"]
+}
+
+
+###
+POST http://localhost:8080/user-center-backend/test
+Content-Type: application/x-www-form-urlencoded
+
+jsonObject={"name":"张三","age":30}
+
+
