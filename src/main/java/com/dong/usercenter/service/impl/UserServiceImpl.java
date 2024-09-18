@@ -80,6 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public User userLogin(String username, String userPassword, HttpServletRequest request) {
+        //todo 校验验证码
         QueryWrapper<User> nameWrapper = new QueryWrapper<>();
         nameWrapper.eq("username", username);
         User userExits = this.getOne(nameWrapper);

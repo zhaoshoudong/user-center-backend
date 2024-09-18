@@ -14,7 +14,13 @@
 <body class="gray-bg">
     <div class="row border-bottom white-bg dashboard-header">
         <div class="col-sm-12">
-
+                <h1 class="text-center">Video Playback</h1>
+                <div class="embed-responsive embed-responsive-16by9 mt-4">
+                    <video class="embed-responsive-item" controls>
+                        <source th:src="@{/videos/sample.mp4}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
         </div>
 
 

@@ -12,6 +12,9 @@ import com.dong.usercenter.request.user.*;
 import com.dong.usercenter.service.UserService;
 import com.dong.usercenter.util.ServletUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -40,6 +46,8 @@ public class UserController extends BaseController {
 
     @Resource
     private UserService userService;
+
+    private final Path videoDir = Paths.get("D:\\testVideo");
 
     //用户注册
     @PostMapping("/user/register")
@@ -121,6 +129,20 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/user/add", method = RequestMethod.GET)
     public String add() {
         return "add";
+    }
+
+    @RequestMapping(value = "/videos/{filename:.+}", method = RequestMethod.GET)
+    public ResponseEntity<org.springframework.core.io.Resource> getVideo(@PathVariable String filename) throws MalformedURLException {
+        Path videoPath = videoDir.resolve(filename).normalize();
+        System.out.println(videoPath.toUri());
+        org.springframework.core.io.Resource resource = new UrlResource(videoPath.toUri());
+        if (resource.exists()) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } else {
+            throw new RuntimeException("Video not found " + filename);
+        }
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
