@@ -81,7 +81,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User userLogin(String username, String userPassword, String validateCode, HttpServletRequest request) {
         String kaptcha = (String) request.getSession().getAttribute("kaptcha");
-        if (StringUtils.isBlank(kaptcha)) {
+        if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(validateCode)) {
             throw new BusinessException(ErrorCodeEnum.VALIDATE_CODE_NOT_EXITS.getCode(), ErrorCodeEnum.VALIDATE_CODE_NOT_EXITS.getMessage(), "");
         }
         if (!kaptcha.equalsIgnoreCase(validateCode)) {
