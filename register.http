@@ -54,7 +54,7 @@ Cookie: JSESSIONID=AA6D5D202521CB6BC8BF5FC5AC6CE873
 
 
 ###
-GET http://localhost:18080/user-center-backend/kaptcha
+GET http://120.26.117.172:18080/user-center-backend/kaptcha
 
 {
 

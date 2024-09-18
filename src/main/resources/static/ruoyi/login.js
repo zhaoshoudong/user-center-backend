@@ -2,7 +2,7 @@ $(function() {
     validateKickout();
     validateRule();
     $('.imgcode').click(function() {
-        var url = ctx + "kaptcha" + "&s=" + Math.random();
+        var url = ctx + "kaptcha?p=" + Math.random();
         $(".imgcode").attr("src", url);
     });
 });
