@@ -7,7 +7,6 @@ import java.security.NoSuchAlgorithmException;
  * @BelongsPackage: com.dong.usercenter.util
  * @Author: shouDong.zhao
  * @CreateTime: 2024/8/29
- * @Description: TODO
  */
 public class MD5Util {
 

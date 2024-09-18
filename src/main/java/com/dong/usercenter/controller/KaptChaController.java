@@ -20,7 +20,6 @@ import java.io.OutputStream;
  * @BelongsPackage: com.dong.usercenter.controller
  * @Author: shouDong.zhao
  * @CreateTime: 2024/9/18
- * @Description: TODO
  */
 @Controller
 public class KaptChaController {

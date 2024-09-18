@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.NotBlank;
  * @BelongsPackage: com.dong.usercenter.request
  * @Author: shouDong.zhao
  * @CreateTime: 2024/8/29
- * @Description: TODO
  */
 @Data
 public class UserLoginRequest {

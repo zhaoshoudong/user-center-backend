@@ -6,7 +6,6 @@ import lombok.Getter;
  * @BelongsPackage: com.dong.usercenter.exception
  * @Author: shouDong.zhao
  * @CreateTime: 2024/9/4
- * @Description: TODO
  */
 @Getter
 public class BusinessException extends RuntimeException {
