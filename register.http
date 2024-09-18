@@ -8,11 +8,13 @@ Cookie: JSESSIONID=E86EE842DDE357020D398BD59033A37E
 ###
 
 POST http://localhost:18080/user-center-backend/user/login
+Cookie: JSESSIONID=894D3D9CADC0EC5D2113E582D7DAA6C0
 Content-Type: application/json
 
 {
-  "userAccount": "123123",
-  "userPassword": "123456"
+  "userAccount": "wwww",
+  "userPassword": "123456",
+  "validateCode": "ng6mn"
 }
 
 ###

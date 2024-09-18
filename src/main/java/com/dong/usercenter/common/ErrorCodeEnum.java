@@ -18,7 +18,9 @@ public enum ErrorCodeEnum {
     USER_LOGIN_EXPIRED(10004, "登录已过期,请重新登陆!", ""),
     USER_NOT_ADMIN(10005, "只有管理员才可以删除用户!", ""),
     CHECK_PASSWORD_NOT_CORRECT(10006, "两次输入的密码不一致", ""),
-    USERNAME_PASSWORD_IS_NULL(10007, "用户名或密码不能为空", "");
+    USERNAME_PASSWORD_IS_NULL(10007, "用户名或密码不能为空", ""),
+    VALIDATE_CODE_NOT_CORRECT(10008, "验证码不正确", ""),
+    VALIDATE_CODE_NOT_EXITS(10009, "请先获取验证码", "");
 
 
     private final int code;

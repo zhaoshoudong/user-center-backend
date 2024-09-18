@@ -32,7 +32,7 @@ public interface UserService extends IService<User> {
      * @param request      请求
      * @return User
      */
-    User userLogin(String username, String userPassword, HttpServletRequest request);
+    User userLogin(String username, String userPassword, String validateCode,HttpServletRequest request);
 
     /**
      * 查询用户列表

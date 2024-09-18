@@ -79,8 +79,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return User脱敏后的用户信息
      */
     @Override
-    public User userLogin(String username, String userPassword, HttpServletRequest request) {
-        //todo 校验验证码
+    public User userLogin(String username, String userPassword, String validateCode, HttpServletRequest request) {
+        String kaptcha = (String) request.getSession().getAttribute("kaptcha");
+        if (StringUtils.isBlank(kaptcha)) {
+            throw new BusinessException(ErrorCodeEnum.VALIDATE_CODE_NOT_EXITS.getCode(), ErrorCodeEnum.VALIDATE_CODE_NOT_EXITS.getMessage(), "");
+        }
+        if (!kaptcha.equalsIgnoreCase(validateCode)) {
+            throw new BusinessException(ErrorCodeEnum.VALIDATE_CODE_NOT_CORRECT.getCode(), ErrorCodeEnum.VALIDATE_CODE_NOT_CORRECT.getMessage(), "");
+        }
         QueryWrapper<User> nameWrapper = new QueryWrapper<>();
         nameWrapper.eq("username", username);
         User userExits = this.getOne(nameWrapper);

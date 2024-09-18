@@ -33,7 +33,7 @@ public class KaptChaController {
     public void getKaptCha(HttpServletResponse response, HttpSession session){
         String text = kaptChaProducer.createText();
         BufferedImage image = kaptChaProducer.createImage(text);
-        session.setAttribute("kaptCha", text);
+        session.setAttribute("kaptcha", text);
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
        try{
            OutputStream os = response.getOutputStream();

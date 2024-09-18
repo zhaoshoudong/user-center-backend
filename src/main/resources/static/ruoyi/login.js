@@ -1,9 +1,8 @@
-
 $(function() {
     validateKickout();
     validateRule();
     $('.imgcode').click(function() {
-        var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
+        var url = ctx + "kaptcha" + "&s=" + Math.random();
         $(".imgcode").attr("src", url);
     });
 });

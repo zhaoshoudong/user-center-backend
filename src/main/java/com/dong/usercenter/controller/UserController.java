@@ -63,7 +63,7 @@ public class UserController extends BaseController {
     @PostMapping("/user/login")
     @ResponseBody
     public BaseResponse<User> userLogin(@RequestBody @Validated UserLoginRequest param, HttpServletRequest request, Model model) {
-        User user = userService.userLogin(param.getUserAccount(), param.getUserPassword(), request);
+        User user = userService.userLogin(param.getUserAccount(), param.getUserPassword(), param.getValidateCode(),request);
         model.addAttribute("user", user);
         return ResultUtils.success(user);
     }
