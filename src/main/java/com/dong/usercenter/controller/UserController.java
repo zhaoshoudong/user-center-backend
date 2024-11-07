@@ -87,6 +87,14 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 登录页
+     */
+    @GetMapping(value = "/user/toLogin")
+    public String userToLogin() {
+        return "index";
+    }
+
+    /**
      * 查询用户列表
      */
     @PostMapping(value = "/user/list")

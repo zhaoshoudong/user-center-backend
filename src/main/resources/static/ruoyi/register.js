@@ -38,7 +38,7 @@ function register() {
             	function(index) {
             	    //关闭弹窗
             	    layer.close(index);
-            	    location.href = ctx + 'login';
+            	    location.href = ctx + '/user/toLogin';
             	});
             } else {
             	$.modal.closeLoading();
