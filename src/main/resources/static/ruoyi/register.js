@@ -16,19 +16,16 @@ $.validator.setDefaults({
 function register() {
     var username = $.common.trim($("input[name='username']").val());
     var password = $.common.trim($("input[name='password']").val());
-    var validateCode = $("input[name='validateCode']").val();
-    if($.common.isEmpty(validateCode) && captchaEnabled) {
-        $.modal.msg("请输入验证码");
-        return false;
-    }
+    var confirmPassword = $.common.trim($("input[name='confirmPassword']").val());
     $.ajax({
         type: "post",
-        url: ctx + "register",
-        data: {
-            "loginName": username,
-            "password": password,
-            "validateCode": validateCode
-        },
+        url: ctx + "/user/register",
+        contentType:"application/json",
+        data: JSON.stringify({
+            "userAccount": username,
+            "userPassword": password,
+            "checkPassword": confirmPassword
+        }),
         beforeSend: function () {
             $.modal.loading($("#btnSubmit").data("loading"));
         },
