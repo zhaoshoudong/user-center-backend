@@ -8,6 +8,7 @@ import com.dong.usercenter.service.UserService;
 import com.dong.usercenter.util.MD5Util;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -18,6 +19,9 @@ class UserCenterApplicationTests {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @Test
@@ -52,6 +56,16 @@ class UserCenterApplicationTests {
         //e10adc3949ba59abbe56e057f20f883e
         String md5 = MD5Util.getMD5("123456");
         System.out.println(md5);
+        String md5Demo = MD5Util.digestDemo("abc123456");
+        String substring = md5Demo.substring(0, 9);
+        System.out.println(substring);
+    }
+
+    @Test
+    void redisTest01(){
+        stringRedisTemplate.opsForValue().set("name","lisi");
+        String s = stringRedisTemplate.opsForValue().get("name");
+        System.out.println(s);
     }
 
 }

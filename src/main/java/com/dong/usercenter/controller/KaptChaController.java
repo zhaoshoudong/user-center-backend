@@ -1,6 +1,9 @@
 package com.dong.usercenter.controller;
 
 import com.google.code.kaptcha.Producer;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -21,6 +24,8 @@ import java.io.OutputStream;
  * @Author: shouDong.zhao
  * @CreateTime: 2024/9/18
  */
+@Api(tags = "KaptChaController")
+@Tag(name = "KaptChaController", description = "验证码服务")
 @Controller
 public class KaptChaController {
 
@@ -29,6 +34,7 @@ public class KaptChaController {
     @Resource
     private Producer kaptChaProducer;
 
+    @ApiOperation(value = "生成验证码图片")
     @RequestMapping(value = "/kaptcha",method = RequestMethod.GET)
     public void getKaptCha(HttpServletResponse response, HttpSession session){
         String text = kaptChaProducer.createText();

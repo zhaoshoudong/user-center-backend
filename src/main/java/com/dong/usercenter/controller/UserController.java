@@ -11,6 +11,9 @@ import com.dong.usercenter.model.domain.User;
 import com.dong.usercenter.request.user.*;
 import com.dong.usercenter.service.UserService;
 import com.dong.usercenter.util.ServletUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -38,6 +41,8 @@ import java.util.stream.Collectors;
  * @CreateTime: 2024/8/29
  * @Description: 用户服务
  */
+@Api(tags = "UserController")
+@Tag(name = "UserController", description = "用户管理")
 @Controller
 public class UserController extends BaseController {
 
@@ -49,7 +54,7 @@ public class UserController extends BaseController {
 
     private final Path videoDir = Paths.get("D:\\testVideo");
 
-    //用户注册
+    @ApiOperation(value = "用户注册")
     @PostMapping("/user/register")
     @ResponseBody
     public BaseResponse<String> userRegister(@RequestBody @Validated UserRegisterRequest param) {
@@ -60,6 +65,7 @@ public class UserController extends BaseController {
     /**
      * 用户登录
      */
+    @ApiOperation(value = "用户登录")
     @PostMapping("/user/login")
     @ResponseBody
     public BaseResponse<User> userLogin(@RequestBody @Validated UserLoginRequest param, HttpServletRequest request, Model model) {
@@ -71,6 +77,7 @@ public class UserController extends BaseController {
     /**
      * 用户修改
      */
+    @ApiOperation(value = "用户修改")
     @PostMapping("/user/update")
     @ResponseBody
     public BaseResponse<User> updateUser(@RequestBody @Validated UserUpdateRequest param, HttpServletRequest request) {
@@ -97,6 +104,7 @@ public class UserController extends BaseController {
     /**
      * 查询用户列表
      */
+    @ApiOperation(value = "用户列表")
     @PostMapping(value = "/user/list")
     @ResponseBody
     public TableDataInfo userList(UserListRequest param, HttpServletRequest request) {
@@ -106,6 +114,7 @@ public class UserController extends BaseController {
         return getDataTable(userList);
     }
 
+    @ApiOperation(value = "用户删除")
     @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse<String> delete(UserDeleteRequest param, HttpServletRequest request) {
@@ -153,6 +162,7 @@ public class UserController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "退出登录")
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(UserConstant.USER_LOGIN_STATE);
@@ -160,6 +170,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/test", produces = "application/json", method = RequestMethod.POST)
+    @ResponseBody
     public String testController(@RequestParam("jsonObject") String jsonObject) {
         JSONObject objectParam = JSON.parseObject(jsonObject);
         String name = objectParam.getString("name");

@@ -26,4 +26,12 @@ public class MD5Util {
         }
     }
 
+    public static String digestDemo(String password){
+        return password + "999";
+    }
+
+    public static String reDigestDemo(String password){
+        return password.substring(0, 9);
+    }
+
 }

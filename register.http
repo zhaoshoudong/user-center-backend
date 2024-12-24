@@ -62,7 +62,7 @@ GET http://120.26.117.172:18080/user-center-backend/kaptcha
 
 
 ###
-POST http://localhost:8080/user-center-backend/test
+POST http://localhost:18080/user-center-backend/test
 Content-Type: application/x-www-form-urlencoded
 
 jsonObject={"name":"张三","age":30}
