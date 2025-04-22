@@ -41,7 +41,7 @@ public interface UserService extends IService<User> {
      * @param request  请求
      * @return List<User>
      */
-    List<User> getUserList(String username, String phone, String email, HttpServletRequest request);
+    List<User> getUserList(String username, String phone, String email, String userStatus,HttpServletRequest request);
 
     boolean deleteUsers(String ids, HttpServletRequest request);
 

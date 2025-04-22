@@ -252,10 +252,11 @@
             let username = $('input[name="username"]').val().trim();
             let phone = $('input[name="phone"]').val().trim();
             let email = $('input[name="email"]').val().trim();
+            let userStatus = $('select[name="status"]').val();
             $.ajax({
                 url: prefix + '/list',
                 type: 'POST',
-                data: {username: username, phone: phone, email: email},
+                data: {username: username, phone: phone, email: email, userStatus: userStatus},
                 success: function (res) {
                     $('#bootstrap-table').bootstrapTable('load', res.rows);
                 },

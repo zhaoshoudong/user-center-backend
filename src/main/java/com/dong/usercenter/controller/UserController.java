@@ -110,7 +110,11 @@ public class UserController extends BaseController {
     public TableDataInfo userList(UserListRequest param, HttpServletRequest request) {
         AtomicInteger start = new AtomicInteger();
         startPage();
-        List<User> userList = userService.getUserList(param.getUsername(), param.getPhone(), param.getEmail(), request).stream().map(user -> userService.getSafetyUser(user)).collect(Collectors.toList());
+        List<User> userList = userService.getUserList(param.getUsername(), param.getPhone(),
+                param.getEmail(), param.getUserStatus(), request)
+                .stream()
+                .map(user -> userService.getSafetyUser(user))
+                .collect(Collectors.toList());
         return getDataTable(userList);
     }
 

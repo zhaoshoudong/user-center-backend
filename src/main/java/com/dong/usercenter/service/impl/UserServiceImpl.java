@@ -135,7 +135,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @param username 用户名
      */
     @Override
-    public List<User> getUserList(String username, String phone, String email, HttpServletRequest request) {
+    public List<User> getUserList(String username, String phone, String email, String userStatus, HttpServletRequest request) {
         //鉴权，只有管理员才能查看用户列表
         if (!isAdmin(request)) {
             return null;
@@ -143,7 +143,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.like(!StringUtils.isBlank(username), "username", username)
                 .like(!StringUtils.isBlank(phone), "phone", phone)
-                .like(!StringUtils.isBlank(email), "email", email);
+                .like(!StringUtils.isBlank(email), "email", email)
+                .like(!StringUtils.isBlank(userStatus), "deleted", userStatus);
         return this.list(wrapper);
     }
 
